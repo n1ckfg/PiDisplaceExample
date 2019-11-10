@@ -15,7 +15,7 @@ void main()
 	vec4 modifiedPosition = modelViewProjectionMatrix * position;
    
     // we need to scale up the values we get from the texture
-    float scale = 100;
+    float scale = 100.0;
     
     // here we get the red channel value from the texture
     // to use it as vertical displacement
