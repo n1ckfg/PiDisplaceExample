@@ -1,20 +1,30 @@
+
 // these are for the programmable pipeline system
 uniform mat4 modelViewProjectionMatrix;
 attribute vec4 position;
+attribute vec2 texcoord;
 
-// this is going to be passed in our program
-uniform float time;
-
+varying vec2 texCoordVarying;
 
 void main()
 {
-    // the sine wave travels along the x-axis (across the screen),
-    // so we use the x coordinate of each vertex for the calculation,
-    // but we displace all the vertex along the y axis (up the screen)/
-    float displacementHeight = 100.0;
-    float displacementY = sin(time + (position.x / 100.0)) * displacementHeight;
+	// get the texture coordinates
+    texCoordVarying = texcoord;
+
+    // get the position of the vertex relative to the modelViewProjectionMatrix
+	vec4 modifiedPosition = modelViewProjectionMatrix * position;
+   
+    // we need to scale up the values we get from the texture
+    float scale = 100;
     
-    vec4 modifiedPosition = modelViewProjectionMatrix * position;
-	modifiedPosition.y += displacementY;
+    // here we get the red channel value from the texture
+    // to use it as vertical displacement
+    float displacementY = texture2Dlod(tex0, texCoordVarying.xy);
+		
+    // use the displacement we created from the texture data
+    // to modify the vertex position
+    modifiedPosition.y += displacementY * scale;
+
+    // this is the resulting vertex position
 	gl_Position = modifiedPosition;
 }
