@@ -21,7 +21,7 @@ void main()
     
     // here we get the red channel value from the texture
     // to use it as vertical displacement
-    float displacementY = texture2DLod(tex0, texCoordVarying.xy, 1.0);
+    float displacementY = texture2DLod(tex0, texCoordVarying.xy, 0.0).x;
 		
     // use the displacement we created from the texture data
     // to modify the vertex position
